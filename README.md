@@ -18,7 +18,7 @@ Python's json serializer.
 This is a very early stage project.  It works for our needs.  We haven't verified it works beyond that.  Issue reports
 and patches are very much appreciated!
 
-For example, it only supports strint, int32, int64, double, and sub message members at this time.
+For example, it only supports string, int32, int64, double, fixed32, fixed64, and sub message members at this time.
 
 
 ### Pre-requisites:
