@@ -44,6 +44,7 @@ TYPE = {
   'BOOL': descriptor_pb2.FieldDescriptorProto.TYPE_BOOL,
   'ENUM': descriptor_pb2.FieldDescriptorProto.TYPE_ENUM,
   'FIXED32': descriptor_pb2.FieldDescriptorProto.TYPE_FIXED32,
+  'FIXED64': descriptor_pb2.FieldDescriptorProto.TYPE_FIXED64,
   # TODO(robbyw): More types.
 }
 

@@ -24,7 +24,9 @@ import {{ file.package }}
         or field.type == TYPE.UINT32
         or field.type == TYPE.INT64
         or field.type == TYPE.SINT64
-        or field.type == TYPE.UINT64 -%}
+        or field.type == TYPE.UINT64
+        or field.type == TYPE.FIXED32
+        or field.type == TYPE.FIXED64 -%}
     {{ index }}
   {%- elif field.type == TYPE.DOUBLE -%}
     {{ index }}.{{ index }}

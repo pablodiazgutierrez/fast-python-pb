@@ -44,9 +44,15 @@ fastpb_convert{{ TYPE.UINT32 }}(::google::protobuf::uint32 value)
 }
 
 static PyObject *
-fastpb_convert{{ TYPE.FIXED32 }}(::google::protobuf::int32 value)
+fastpb_convert{{ TYPE.FIXED32 }}(::google::protobuf::uint32 value)
 {
-    return PyLong_FromLong(value);
+    return PyLong_FromUnsignedLong(value);
+}
+
+static PyObject *
+fastpb_convert{{ TYPE.FIXED64 }}(::google::protobuf::uint64 value)
+{
+    return PyLong_FromUnsignedLongLong(value);
 }
 
 static PyObject *
@@ -419,12 +425,40 @@ namespace {
           return -1;
         }
 
-      {% elif member.type == TYPE.INT32 or member.type == TYPE.SINT32 or member.type == TYPE.FIXED32%}
+      {% elif member.type == TYPE.INT32 or member.type == TYPE.SINT32 %}
         ::google::protobuf::int32 protoValue;
 
         // int32
         if (PyInt_Check(value)) {
           protoValue = PyInt_AsLong(value);
+        } else {
+          PyErr_SetString(PyExc_TypeError,
+                          "The {{ member.name }} attribute value must be an integer");
+          return -1;
+        }
+
+      {% elif member.type == TYPE.FIXED64 %}
+        ::google::protobuf::uint64 protoValue;
+
+        // uint64
+        if (PyInt_Check(value)) {
+          protoValue = PyInt_AsUnsignedLongLongMask(value);
+        } else if (PyLong_Check(value)) {
+          protoValue = PyLong_AsUnsignedLongLong(value);
+        } else {
+          PyErr_SetString(PyExc_TypeError,
+                          "The {{ member.name }} attribute value must be an integer");
+          return -1;
+        }
+
+      {% elif member.type == TYPE.FIXED32 %}
+        ::google::protobuf::uint32 protoValue;
+
+        // uint32
+        if (PyInt_Check(value)) {
+          protoValue = PyInt_AsUnsignedLongMask(value);
+        } else if (PyLong_Check(value)) {
+          protoValue = PyLong_AsUnsignedLong(value);
         } else {
           PyErr_SetString(PyExc_TypeError,
                           "The {{ member.name }} attribute value must be an integer");
